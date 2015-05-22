@@ -1,0 +1,27 @@
+# wrap-up for baseline installation on openwrt
+
+cd /tmp
+wget http://d.wrtnode.com/packages/libffi_3.0.13-1_ramips_24kec.ipk
+wget http://d.wrtnode.com/packages/zlib_1.2.8-1_ramips_24kec.ipk
+wget http://d.wrtnode.com/packages/libpthread_0.9.33.2-1_ramips_24kec.ipk
+wget http://d.wrtnode.com/packages/python-mini_2.7.3-2_ramips_24kec.ipk
+wget http://d.wrtnode.com/packages/python_2.7.3-2_ramips_24kec.ipk
+
+opkg update
+opkg install libffi_3.0.13-1_ramips_24kec.ipk
+opkg install libpthread_0.9.33.2-1_ramips_24kec.ipk
+opkg install zlib_1.2.8-1_ramips_24kec.ipk
+opkg install python-mini_2.7.3-2_ramips_24kec.ipk
+opkg install python_2.7.3-2_ramips_24kec.ipk
+
+wget http://git.eclipse.org/c/paho/org.eclipse.paho.mqtt.python.git/snapshot/org.eclipse.paho.mqtt.python...
+gunzip org.eclipse.paho.mqtt.python-1.1.tar.gz 
+tar xf org.eclipse.paho.mqtt.python-1.1.tar 
+cd org.eclipse.paho.mqtt.python-1.1
+python setup.py build
+python setup.py install
+cd ..
+
+opkg install mosquitto mosquitto-client libmosquitto
+
+# rm /tmp/*.ipk

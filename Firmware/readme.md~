@@ -1,0 +1,68 @@
+relayrWRT Firmware
+===================================
+Features
+------
+1. Add wifi configuration(internet access) via Luci
+2. I2C integration
+3. SPI integration
+4. Linux 3.18.7 Kernel
+
+Flash the firmware
+------
+
+
+1.After flashing the firmware, there will be a Wifi network "relayrWRTxxxx", xxxx are the last 4 digits of the board's MAC addr.
+
+2. There is no password for the Wifi, you can set a new password for wifi via log in 192.168.7.1
+
+3. The default IP of relayr Firmware is set to 192.168.7.1
+
+First time connect
+------
+If you connect first time to this firmware or you didn't set password for root user of OpenWrt, use telnet to connect:
+
+telnet 192.168.7.1
+
+
+Set the password for root:
+
+root@OpenWrt:~# passwd
+
+The WRTnode will set up a default connection to relayr wifi due to the following modifications in trunk:
+
+/etc/config/wireless
+
+>config wifi-iface
+option device radio0<br />
+option network wwan<br />
+option mode sta<br />
+option ssid relayr<br />
+option encryption psk2<br />
+option key wearsimaspants<br />
+
+/etc/config/network
+
+>config interface wwan<br />
+option proto 'dhcp'
+
+
+/etc/config/firewall
+
+>config zone
+>	option name		wan<br />
+	list   network		'wan'<br />
+	list   network		'wan6'<br />
+	list   network		'wwan'<br />
+	option input		ACCEPT<br />
+	option output		ACCEPT<br />
+	option forward		REJECT<br />
+	option masq		1<br />
+	option mtu_fix		1<br />
+
+Get access to internet
+------
+
+1. log in Luci : 192.168.7.1
+2. go to Network--Wifi
+3. Click "Scan"
+4. Find correct network, type in the correct password and click "Submit"
